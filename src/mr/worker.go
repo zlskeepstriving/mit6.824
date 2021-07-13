@@ -8,7 +8,14 @@ import (
 	"log"
 	"net/rpc"
 	"os"
-	"strconv"
+	"sort"
+	"time"
+
+	"sync"
+)
+
+var (
+	wg sync.WaitGroup
 )
 
 //
@@ -28,8 +35,7 @@ func (a ByKey) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a ByKey) Less(i, j int) bool { return a[i].Key < a[j].Key }
 
 //
-// use ihash(key) % NReduce to choose the reduce
-// task number for each KeyValue emitted by Map.
+// use ihash(key) % NReduce to choose the reduce task number for each KeyValue emitted by Map.
 //
 func ihash(key string) int {
 	h := fnv.New32a()
@@ -42,48 +48,73 @@ func ihash(key string) int {
 //
 
 func mapFunction(mapf func(string, string) []KeyValue, task *Task) {
-	mapFilename := task.FileName
+	mapFilename := task.MapFileName
 	file, err := os.Open(mapFilename)
 	if err != nil {
 		log.Fatalf("cannot open %v", mapFilename)
 	}
 	//fmt.Println("Start Mapping", mapFilename)
-	content, _ := ioutil.ReadAll(file)
+
+	content, err := ioutil.ReadAll(file)
+
+	if err != nil {
+		fmt.Printf("cannot read %v\n", mapFilename)
+	}
+
 	file.Close()
-	oname := "intermediate" + strconv.Itoa(task.TaskID)
-	mapfile, _ := os.Create(oname)
-	defer mapfile.Close()
-	enc := json.NewEncoder(mapfile)
 	intermediate := mapf(mapFilename, string(content))
 	for _, kv := range intermediate {
-		err := enc.Encode(&kv)
+		num := ihash(kv.Key) % task.NReduce
+		interFileName := fmt.Sprintf("mr-%v-%d", task.TaskID, num)
+		inter, err := os.OpenFile(interFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+		if err != nil {
+			fmt.Println("can not open the file: ", interFileName)
+		}
+		enc := json.NewEncoder(inter)
+		err = enc.Encode(&kv)
 		if err != nil {
 			fmt.Printf("map %v error\n", kv.Key)
 		}
+		inter.Close()
 	}
 	//fmt.Printf("intermediate map file %v has been generated successfully\n", oname)
 	callMapTaskFinished(task)
 }
 
 func reduceFunction(reducef func(string, []string) string, task *Task) {
-	interFileName := "intermediate" + strconv.Itoa(task.TaskID)
-	reduceFile, err := os.Open(interFileName)
-	if err == nil {
-		//fmt.Println("Start Reducing ")
+	reduceFileName := fmt.Sprintf("mr-tmp-%v", task.TaskID)
+	reduceFile, err := os.Create(reduceFileName)
+	defer reduceFile.Close()
+
+	if err != nil {
+		fmt.Printf("Can not create the file %v to reduce\n", reduceFileName)
+		return
 	}
-	dec := json.NewDecoder(reduceFile)
 
 	intermediate := []KeyValue{}
-	for {
-		var kv KeyValue
-		if err := dec.Decode(&kv); err != nil {
-			break
+
+	for i := 0; i < task.NMaps; i++ {
+		interFileName := fmt.Sprintf("mr-%v-%v", i, task.TaskID)
+		inter, err := os.Open(interFileName)
+		if err != nil {
+			fmt.Println("can not open the file: ", interFileName)
 		}
-		intermediate = append(intermediate, kv)
+
+		dec := json.NewDecoder(inter)
+
+		for {
+			var kv KeyValue
+			if err := dec.Decode(&kv); err != nil {
+				break
+			}
+			intermediate = append(intermediate, kv)
+		}
 	}
 
-	outputFileName := "mr-out" + strconv.Itoa(task.TaskID)
+	sort.Sort(ByKey(intermediate))
+	outputFileName := fmt.Sprintf("mr-out-%v", task.TaskID)
 	outputFile, _ := os.Create(outputFileName)
+	defer outputFile.Close()
 
 	i := 0
 	for i < len(intermediate) {
@@ -109,29 +140,45 @@ func reduceFunction(reducef func(string, []string) string, task *Task) {
 func Worker(mapf func(string, string) []KeyValue,
 	reducef func(string, []string) string) {
 	for {
-		end := callEnd()
-		if end {
-			break
-		}
-		//time.Sleep(time.Second)
-		// Your worker implementation here.
-		task := callTask()
-		if task.Phase == MapPhase {
-			mapFunction(mapf, task)
-		} else if task.Phase == ReducePhase {
-			reduceFunction(reducef, task)
-		}
+		wg.Add(1)
+		time.Sleep(time.Second * 2)
+		go func() {
+			defer wg.Done()
+
+			task, end := callTask()
+			if end {
+				fmt.Println("All Task have been finished, worker can exit")
+				os.Exit(1)
+			}
+
+			// Your worker implementation here.
+			if task.Phase == MapPhase {
+				for j := 0; j < 10; j++ {
+					oname := fmt.Sprintf("mr-%v-%v", task.TaskID, j)
+					inter, err := os.Create(oname)
+					if err != nil {
+						fmt.Printf("Create file %v failed!", oname)
+					}
+					inter.Close()
+				}
+				mapFunction(mapf, &task)
+			} else if task.Phase == ReducePhase {
+				reduceFunction(reducef, &task)
+			}
+		}()
 	}
-	fmt.Println("All Task have been finished, worker can exit")
-	os.Exit(1)
+	wg.Wait()
 }
 
-func callTask() *Task {
+func callTask() (Task, bool) {
 	args := ExampleArgs{}
 	masterReply := MasterReply{}
 	if flag := call("Master.AssignTask", &args, &masterReply); flag {
 		//fmt.Println("callTask is successful")
-		return masterReply.CurTask
+		if masterReply.End {
+			return Task{}, true
+		}
+		return masterReply.CurTask, false
 	}
 	panic("call Task is fail")
 }

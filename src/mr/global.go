@@ -25,12 +25,13 @@ const (
 )
 
 type Task struct {
-	FileName string
-	NReduce  int
-	NMaps    int
-	TaskID   int
-	Phase    TaskPhase
-	Status   TaskStatus
+	MapFileName string
+	ReduceID    int
+	NReduce     int
+	NMaps       int
+	TaskID      int
+	Phase       TaskPhase
+	Status      TaskStatus
 }
 
 type TaskStat struct {

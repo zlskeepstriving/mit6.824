@@ -21,7 +21,6 @@ type Master struct {
 	fileToTask map[string]*Task
 	mutex      sync.Mutex
 	taskList   []*Task
-	idToTask   map[int]*Task
 	phase      TaskPhase
 }
 
@@ -39,69 +38,80 @@ func (m *Master) Example(args *ExampleArgs, reply *ExampleReply) error {
 
 func (m *Master) MapTaskFinished(args *ExampleArgs, reply *MasterReply) error {
 	m.mutex.Lock()
-	m.idToTask[args.TaskID].Status = TaskStatusMapFinished
+	//fmt.Println("rpc -----------------", args.TaskID)
+	m.taskList[args.TaskID].Status = TaskStatusMapFinished
 	m.mutex.Unlock()
 	return nil
 }
 
 func (m *Master) ReduceTaskFinished(args *ExampleArgs, reply *MasterReply) error {
 	m.mutex.Lock()
-	m.idToTask[args.TaskID].Status = TaskStatusFinished
+	m.taskList[args.TaskID].Status = TaskStatusFinished
 	m.mutex.Unlock()
 	return nil
 }
 func (m *Master) checkMapFinished() bool {
 	var ret = true
-	for _, task := range m.taskList {
-		if task.Status == TaskStatusReady {
-			ret = false
-			break
-		}
-	}
-	return ret
-}
 
-func (m *Master) checkReduceFinished() bool {
-	var ret = true
 	for _, task := range m.taskList {
-		if task.Status != TaskStatusFinished {
+		if task.Status != TaskStatusMapFinished {
 			ret = false
 			break
 		}
 	}
+
 	return ret
 }
 
 func (m *Master) AssignTask(args *ExampleArgs, masterReply *MasterReply) error {
+	masterReply.End = m.Done()
+	if masterReply.End {
+		return nil
+	}
+
 	m.mutex.Lock()
 	if m.phase == MapPhase {
 		for _, task := range m.taskList {
 			if task.Status == TaskStatusReady {
 				task.Phase = MapPhase
-				masterReply.CurTask = task
+				masterReply.CurTask = *task
 				task.Status = TaskStatusMapping
-				//fmt.Println("Mapping file", task.FileName)
+				//fmt.Println("Mapping file", task.MapFileName)
 				break
 			}
 		}
-		//map阶段结束
+		//check whether map phase has finished
 		startReducePhase := m.checkMapFinished()
 		if startReducePhase {
 			m.phase = ReducePhase
+
+			//update taskList for reduce phase
+			var t int = len(m.taskList)
+			for len(m.taskList) < m.nReduce {
+				ts := &Task{
+					Status: TaskStatusMapFinished,
+					Phase:  ReducePhase,
+					TaskID: t,
+					NMaps:  m.taskList[0].NMaps,
+				}
+				t++
+				m.taskList = append(m.taskList, ts)
+			}
 			fmt.Println("All MapTask have been finished, now start ReducePhase")
 		}
 	} else if m.phase == ReducePhase {
 		for _, task := range m.taskList {
 			if task.Status == TaskStatusMapFinished {
 				task.Phase = ReducePhase
-				masterReply.CurTask = task
+				masterReply.CurTask = *task
 				task.Status = TaskStatusReducing
-				//fmt.Println("Reducing file", task.FileName)
+				//fmt.Printf("Reducing mr-*-%v\n", task.TaskID)
 				break
 			}
 		}
 	}
 	m.mutex.Unlock()
+
 	return nil
 }
 
@@ -158,16 +168,16 @@ func (m *Master) Done() bool {
 func MakeMaster(files []string, nReduce int) *Master {
 	m := Master{}
 	m.files = files
-	//m.taskList = make([]*Task, 0)
-	m.idToTask = make(map[int]*Task, len(files))
-	var taskid int = 1
+	m.nReduce = nReduce
+	var taskid int = 0
 	for _, file := range m.files {
 		task := Task{
-			FileName: file,
-			Status:   TaskStatusReady,
-			TaskID:   taskid,
+			MapFileName: file,
+			Status:      TaskStatusReady,
+			TaskID:      taskid,
+			NMaps:       len(files),
+			NReduce:     nReduce,
 		}
-		m.idToTask[taskid] = &task
 		taskid++
 		m.taskList = append(m.taskList, &task)
 		//fmt.Println(taskList)

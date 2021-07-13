@@ -26,7 +26,7 @@ type ExampleReply struct {
 }
 
 type MasterReply struct {
-	CurTask        *Task
+	CurTask        Task
 	MapFileName    string
 	ReduceFileName string
 	End            bool
