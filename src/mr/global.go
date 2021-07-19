@@ -26,7 +26,6 @@ const (
 
 type Task struct {
 	MapFileName string
-	ReduceID    int
 	NReduce     int
 	NMaps       int
 	TaskID      int

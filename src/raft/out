@@ -1,0 +1,85 @@
+Test (2A): initial election ...
+2021/07/19 09:20:51 peer[1] timer[218] is out, now start to elect as a candidate
+2021/07/19 09:20:51 term: [1], peer[2] vote for peer[1]
+2021/07/19 09:20:51 term: [1], peer[0] vote for peer[1]
+2021/07/19 09:20:51 peer[1] is elected as a leader, now start serving...
+2021/07/19 09:20:51 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:51 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:52 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:53 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[0] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[2] has received heartbeat from leader peer[1]
+2021/07/19 09:20:54 term[1], peer[0] has received heartbeat from leader peer[1]
+  ... Passed --   3.1  3   42   11774    0
+Test (2A): election after network failure ...
+2021/07/19 09:20:54 peer[0] timer[215] is out, now start to elect as a candidate
+2021/07/19 09:20:54 term: [1], peer[2] vote for peer[0]
+2021/07/19 09:20:54 term: [1], peer[1] vote for peer[0]
+2021/07/19 09:20:54 peer[0] is elected as a leader, now start serving...
+2021/07/19 09:20:54 term[1], peer[2] has received heartbeat from leader peer[0]
+2021/07/19 09:20:54 term[1], peer[1] has received heartbeat from leader peer[0]
+2021/07/19 09:20:54 peer[2] timer[254] is out, now start to elect as a candidate
+2021/07/19 09:20:54 peer[2] is elected as a leader, now start serving...
+2021/07/19 09:20:55 peer[0] timer[315] is out, now start to elect as a candidate
+2021/07/19 09:20:55 peer[0] is elected as a leader, now start serving...
+2021/07/19 09:20:55 term[1], peer[2] has received heartbeat from leader peer[0]
+2021/07/19 09:20:55 term[1], peer[1] has received heartbeat from leader peer[0]
+2021/07/19 09:20:55 term[1], peer[2] has received heartbeat from leader peer[0]
+2021/07/19 09:20:55 term[1], peer[1] has received heartbeat from leader peer[0]
+pass test1
+2021/07/19 09:20:55 peer[2] timer[217] is out, now start to elect as a candidate
+2021/07/19 09:20:55 term: [2], peer[1] vote for peer[2]
+2021/07/19 09:20:55 peer[2] is elected as a leader, now start serving...
+2021/07/19 09:20:55 term[2], peer[1] has received heartbeat from leader peer[2]
+2021/07/19 09:20:55 term[2], peer[1] has received heartbeat from leader peer[2]
+pass test2
+2021/07/19 09:20:55 term[2], peer[0] has received heartbeat from leader peer[2]
+2021/07/19 09:20:55 term[2], peer[1] has received heartbeat from leader peer[2]
+2021/07/19 09:20:55 term[2], peer[0] has received heartbeat from leader peer[2]
+2021/07/19 09:20:55 term[2], peer[1] has received heartbeat from leader peer[2]
+2021/07/19 09:20:56 term[2], peer[1] has received heartbeat from leader peer[2]
+2021/07/19 09:20:56 term[2], peer[0] has received heartbeat from leader peer[2]
+2021/07/19 09:20:56 term[2], peer[1] has received heartbeat from leader peer[2]
+2021/07/19 09:20:56 term[2], peer[0] has received heartbeat from leader peer[2]
+pass test3
+2021/07/19 09:20:56 peer[0] timer[307] is out, now start to elect as a candidate
+2021/07/19 09:20:56 peer[1] timer[307] is out, now start to elect as a candidate
+2021/07/19 09:20:56 peer[1] is elected as a leader, now start serving...
+--- FAIL: TestReElection2A (3.56s)
+    config.go:360: expected no leader, but 1 claims to be leader
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	6.645s
