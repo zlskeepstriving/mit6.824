@@ -82,15 +82,6 @@ func mapFunction(mapf func(string, string) []KeyValue, task *Task) {
 }
 
 func reduceFunction(reducef func(string, []string) string, task *Task) {
-	reduceFileName := fmt.Sprintf("mr-tmp-%v", task.TaskID)
-	reduceFile, err := os.Create(reduceFileName)
-	defer reduceFile.Close()
-
-	if err != nil {
-		fmt.Printf("Can not create the file %v to reduce\n", reduceFileName)
-		return
-	}
-
 	intermediate := []KeyValue{}
 
 	for i := 0; i < task.NMaps; i++ {
