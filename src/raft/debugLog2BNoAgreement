@@ -1,0 +1,385 @@
+Test (2B): no agreement if too many followers disconnect ...
+--- FAIL: TestFailNoAgree2B (2.57s)
+    config.go:473: one(10) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	2.571s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  170   39511    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.657s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  177   40867    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.697s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  176   39857    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.677s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  164   37435    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.637s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   4.2  5  173   38819    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	4.160s
+Test (2B): no agreement if too many followers disconnect ...
+--- FAIL: TestFailNoAgree2B (2.61s)
+    config.go:473: one(10) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	2.611s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  165   38223    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.718s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  168   37359    4
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.677s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.8  5  175   39731    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.758s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  163   37275    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.685s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  173   38843    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.637s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.9  5  173   39517    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.879s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.8  5  170   39321    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.798s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  163   37195    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.697s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  162   36479    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.726s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  164   37383    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.671s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  172   39275    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.677s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   4.1  5  173   39337    4
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	4.121s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  168   38336    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.637s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  169   38496    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.699s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  171   38934    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.697s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  168   38213    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.717s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  172   39231    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.697s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  168   38790    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.678s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  163   37247    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.617s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  172   39366    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.699s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.8  5  174   39628    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.769s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   4.2  5  172   38681    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	4.200s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  159   35846    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.697s
+Test (2B): no agreement if too many followers disconnect ...
+--- FAIL: TestFailNoAgree2B (2.63s)
+    config.go:473: one(10) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	2.631s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  171   38362    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.677s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  166   37723    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.677s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  163   37614    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.727s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.8  5  166   37035    4
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.838s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  169   39051    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.678s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  165   37816    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.577s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  164   37391    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.597s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  163   37397    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.738s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  167   38507    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.637s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  167   38140    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.597s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  160   36159    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.698s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  164   36827    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.576s
+Test (2B): no agreement if too many followers disconnect ...
+--- FAIL: TestFailNoAgree2B (2.55s)
+    config.go:473: one(10) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	2.551s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  168   37914    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.683s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   4.2  5  173   38922    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	4.180s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  164   36725    4
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.682s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  170   38942    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.677s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   4.3  5  185   42046    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	4.323s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  163   37275    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.597s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  166   37719    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.738s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  165   37561    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.596s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  167   38567    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.606s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   4.1  5  169   38182    4
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	4.140s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  164   37391    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.577s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   4.3  5  185   42445    4
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	4.281s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  176   40233    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.657s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  164   37558    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.637s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   4.2  5  176   39075    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	4.160s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  170   39119    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.718s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  167   38365    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.657s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  155   35194    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.677s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  172   39463    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.659s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  168   38615    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.617s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  167   38629    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.699s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5  163   37397    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.599s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  161   36927    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.733s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  163   37275    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.657s
+Test (2B): no agreement if too many followers disconnect ...
+--- FAIL: TestFailNoAgree2B (2.57s)
+    config.go:473: one(10) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	2.570s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.8  5  170   38883    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.758s
+Test (2B): no agreement if too many followers disconnect ...
+  ... Passed --   3.7  5  176   39828    3
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	3.690s
+Test (2B): no agreement if too many followers disconnect ...
+--- FAIL: TestFailNoAgree2B (2.55s)
+    config.go:473: one(10) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	2.550s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	2.268s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	1.215s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.409s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.232s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.112s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.040s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.046s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.028s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.025s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.055s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.055s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.056s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.054s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.054s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.045s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.099s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	1.006s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.066s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.025s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.058s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.046s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.041s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.044s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.046s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.047s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.038s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.645s
+Test (2B): no agreement if too many followers disconnect ...
+signal: interrupt
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	0.055s
+test finished

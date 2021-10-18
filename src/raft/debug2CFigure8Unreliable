@@ -1,0 +1,422 @@
+
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.6  5 8013 21853359  147
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.616s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  30.8  5 9822 27609699  296
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	30.778s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.9  5 10177 21166349   50
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.919s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.3  5 11058 24819173  249
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.292s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.1  5 9711 31822344  194
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.138s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (35.54s)
+    config.go:479: one(2751) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	35.549s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.9  5 8970 18219360   97
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.906s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  43.3  5 8887 15093320  265
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	43.313s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.0  5 8319 21365115  645
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.005s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (45.12s)
+    config.go:479: one(353) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	45.122s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.9  5 8311 14762529  292
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.900s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (44.95s)
+    config.go:479: one(1587) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	44.952s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  42.1  5 10667 22684576  123
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	42.060s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  31.4  5 10590 34532184   82
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	31.407s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.6  5 5484 10021105  273
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.573s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.7  5 6106 12037867   49
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.694s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  31.6  5 9001 19428214  220
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	31.639s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (45.53s)
+    config.go:479: one(7995) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	45.535s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.2  5 8033 14270171   66
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.170s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.9  5 9634 19729549   26
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.931s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.8  5 10852 77917010  911
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.802s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  27.2  5 7440 24477146   53
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	27.182s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.2  5 10663 45960974   38
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.219s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  39.8  5 9189 23228551   61
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	39.777s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.6  5 10840 33826358   45
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.593s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.7  5 7528 22151203   67
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.729s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.5  5 10511 28390922   96
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.531s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.2  5 8692 33962577   71
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.177s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.7  5 10750 49504361   79
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.749s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.1  5 8746 16567753  109
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.115s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.4  5 10918 32753508  222
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.361s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.3  5 9327 21593625   72
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.308s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.7  5 10354 25161830  159
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.664s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.5  5 9659 20203749   58
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.463s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  42.0  5 10711 63842146  849
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	42.031s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.0  5 8811 25468531  122
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.035s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.5  5 9295 17314862  118
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.491s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.0  5 11189 26734659   81
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.012s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  41.2  5 9917 44558490   56
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	41.162s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.0  5 8983 26528841  311
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.989s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.1  5 8940 13836169   88
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.131s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (36.28s)
+    config.go:479: one(9034) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	36.283s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.5  5 8069 36196557   47
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.547s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.9  5 9829 49225448  741
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.928s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  39.6  5 10207 26270857   50
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	39.595s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.1  5 10687 36981050  148
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.150s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.9  5 10297 37712508  220
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.866s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.1  5 9764 16139508  180
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.127s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  30.3  5 10025 21037869  169
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	30.316s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.5  5 10140 56100960  723
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.492s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  47.4  5 9505 22799122  206
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	47.394s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  30.0  5 8179 20480422   85
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	30.054s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.2  5 9018 14904952   70
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.256s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.2  5 10786 41970460  522
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.244s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.8  5 10562 29672843  138
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.775s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.4  5 10286 20532888   94
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.436s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (41.58s)
+    config.go:479: one(3946) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	41.584s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.7  5 8381 22609647   69
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.712s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  42.5  5 10355 41325415  638
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	42.530s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.9  5 5794 8765117   69
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.912s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.2  5 10578 16541668  190
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.191s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.1  5 10626 38167504  246
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.114s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.9  5 7978 13057814  327
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.930s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.0  5 9196 27473323  437
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.030s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  41.1  5 8970 18196008   95
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	41.115s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (42.32s)
+    config.go:479: one(558) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	42.325s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.2  5 8910 17730446   99
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.180s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (43.82s)
+    config.go:479: one(8671) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	43.832s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  46.9  5 10065 21995073  378
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	46.943s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.7  5 9590 51113173  652
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.719s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.4  5 9665 29487200  211
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.434s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.9  5 9601 19545600  178
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.866s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.7  5 10009 27736357  293
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.721s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.2  5 9584 21446659  127
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.193s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.5  5 6559 27905863  799
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.537s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.9  5 7778 16670403  170
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.874s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.7  5 9537 29967918  231
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.667s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.7  5 10759 43415564  318
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.682s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  39.6  5 11112 50855814  491
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	39.598s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.1  5 11169 65242943  678
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.121s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  39.4  5 9439 42656983  542
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	39.444s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  31.1  5 9434 24288211   91
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	31.149s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.5  5 9577 18258928   83
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.508s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  39.6  5 8261 19996797  183
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	39.582s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.3  5 11072 45580209   83
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.357s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  31.0  5 7844 15029638   72
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	31.008s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.5  5 7087 9501954   45
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.523s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  44.7  5 8860 23712114  201
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	44.730s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.6  5 5841 9722017   86
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.655s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (41.21s)
+    config.go:479: one(6721) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	41.215s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.3  5 8689 15256751  207
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.318s
+Test (2C): Figure 8 (unreliable) ...
+--- FAIL: TestFigure8Unreliable2C (40.55s)
+    config.go:479: one(8607) failed to reach agreement
+FAIL
+exit status 1
+FAIL	_/home/zhaols/mit6.824/6.824/src/raft	40.557s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.5  5 9672 23557379  154
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.462s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.5  5 7876 14684098  128
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.523s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.9  5 6890 9739928  224
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.912s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.5  5 10968 32397227   87
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.545s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.5  5 9938 19132970   97
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.530s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.3  5 10352 74746363  924
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.262s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.2  5 7074 29773082   61
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.167s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  31.0  5 7686 26299159  103
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	30.998s
+test finished
