@@ -1,13 +1,20 @@
 package kvraft
 
-import "../labrpc"
-import "crypto/rand"
-import "math/big"
+import (
+	"crypto/rand"
+	"math/big"
+	"sync"
 
+	"../labrpc"
+)
 
 type Clerk struct {
 	servers []*labrpc.ClientEnd
 	// You will have to modify this struct.
+	mu             sync.Mutex
+	latestLeaderId int
+	clientId       int64
+	opSeq          int
 }
 
 func nrand() int64 {
@@ -20,6 +27,8 @@ func nrand() int64 {
 func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 	ck := new(Clerk)
 	ck.servers = servers
+	ck.clientId = nrand()
+	ck.opSeq = 0
 	// You'll have to add code here.
 	return ck
 }
@@ -39,6 +48,44 @@ func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 func (ck *Clerk) Get(key string) string {
 
 	// You will have to modify this function.
+	ck.mu.Lock()
+	ck.opSeq += 1
+	opSeq := ck.opSeq
+	clientId := ck.clientId
+	ck.mu.Unlock()
+
+	needLoop := true
+	nextSendServerId := ck.latestLeaderId
+	args := GetArgs{
+		Key:      key,
+		OpName:   "Get",
+		ClientId: clientId,
+		Seq:      opSeq,
+	}
+	for needLoop {
+		reply := GetReply{}
+		if ok := ck.servers[nextSendServerId].Call("KVServer.Get", &args, &reply); ok {
+			if reply.Err == ErrWrongLeader {
+				nextSendServerId = (nextSendServerId + 1) % len(ck.servers)
+				continue
+			} else {
+				DPrintf("client receive RPC response from Leader peer[%d], reply[%v]", nextSendServerId, reply)
+				ck.mu.Lock()
+				ck.latestLeaderId = nextSendServerId
+				ck.mu.Unlock()
+				if reply.Err == OK {
+					return reply.Value
+				} else if reply.Err == ErrNoKey {
+					return ""
+				}
+				needLoop = false
+				break
+			}
+		} else {
+			nextSendServerId = (nextSendServerId + 1) % len(ck.servers)
+			continue
+		}
+	}
 	return ""
 }
 
@@ -54,6 +101,40 @@ func (ck *Clerk) Get(key string) string {
 //
 func (ck *Clerk) PutAppend(key string, value string, op string) {
 	// You will have to modify this function.
+	ck.mu.Lock()
+	ck.opSeq += 1
+	opSeq := ck.opSeq
+	clientId := ck.clientId
+	ck.mu.Unlock()
+
+	needLoop := true
+	nextSendServerId := ck.latestLeaderId
+	args := PutAppendArgs{
+		Key:      key,
+		Value:    value,
+		OpName:   op,
+		ClientId: clientId,
+		Seq:      opSeq,
+	}
+	for needLoop {
+		reply := PutAppendReply{}
+		if ok := ck.servers[nextSendServerId].Call("KVServer.PutAppend", &args, &reply); ok {
+			if reply.Err == ErrWrongLeader {
+				nextSendServerId = (nextSendServerId + 1) % len(ck.servers)
+				continue
+			} else if reply.Err == OK {
+				DPrintf("client receive RPC response from peer[%d], reply[%v]", nextSendServerId, reply)
+				ck.mu.Lock()
+				ck.latestLeaderId = nextSendServerId
+				ck.mu.Unlock()
+				needLoop = false
+				return
+			}
+		} else {
+			nextSendServerId = (nextSendServerId + 1) % len(ck.servers)
+			continue
+		}
+	}
 }
 
 func (ck *Clerk) Put(key string, value string) {
