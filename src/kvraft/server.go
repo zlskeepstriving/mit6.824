@@ -1,6 +1,7 @@
 package kvraft
 
 import (
+	"bytes"
 	"log"
 	"reflect"
 	"sync"
@@ -42,9 +43,9 @@ type KVServer struct {
 	maxraftstate int // snapshot if log grows this big
 
 	// Your definitions here.
-	stateMachine    map[string]string
-	latestClientSeq map[int64]int   //record the latest op seq for each client
-	notifyCh        map[int]chan Op //store command based on log index
+	StateMachine    map[string]string
+	LatestClientSeq map[int64]int   //record the latest op seq for each client
+	NotifyCh        map[int]chan Op //store command based on log index
 }
 
 func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
@@ -69,7 +70,7 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 		return
 	} else {
 		kv.mu.Lock()
-		val, ok := kv.stateMachine[args.Key]
+		val, ok := kv.StateMachine[args.Key]
 		if !ok {
 			reply.Err = ErrNoKey
 		} else {
@@ -109,16 +110,16 @@ func (kv *KVServer) runOp(op Op) string {
 	index, _, _ := kv.rf.Start(op)
 
 	kv.mu.Lock()
-	opCh, ok := kv.notifyCh[index]
+	opCh, ok := kv.NotifyCh[index]
 	if !ok {
 		opCh = make(chan Op)
-		kv.notifyCh[index] = opCh
+		kv.NotifyCh[index] = opCh
 	}
 	kv.mu.Unlock()
 
 	defer func() {
 		kv.mu.Lock()
-		delete(kv.notifyCh, index)
+		delete(kv.NotifyCh, index)
 		kv.mu.Unlock()
 	}()
 
@@ -135,43 +136,75 @@ func (kv *KVServer) runOp(op Op) string {
 	}
 }
 
+func (kv *KVServer) encodeSnapshot() []byte {
+	w := new(bytes.Buffer)
+	e := labgob.NewEncoder(w)
+	e.Encode(kv.StateMachine)
+	e.Encode(kv.LatestClientSeq)
+	return w.Bytes()
+}
+
+func (kv *KVServer) decodeSnapshot(snapshot []byte) {
+	d := bytes.NewBuffer(snapshot)
+	decoder := labgob.NewDecoder(d)
+	kv.StateMachine = make(map[string]string)
+	kv.LatestClientSeq = make(map[int64]int)
+	decoder.Decode(&kv.StateMachine)
+	decoder.Decode(&kv.LatestClientSeq)
+	DPrintf("server[%d] decode StateMachine: %v", kv.me, kv.StateMachine)
+}
+
 func (kv *KVServer) applyLoop() {
 	for {
 		applyLog := <-kv.applyCh
-		op, ok := applyLog.Command.(Op)
-		if !ok {
-			log.Printf("[applyLoop]: error")
-		}
-
-		kv.mu.Lock()
-		//detect duplicate request
-		if op.Seq > kv.latestClientSeq[op.ClientId] {
-			kv.applyState(op)
-			kv.latestClientSeq[op.ClientId] = op.Seq
-		}
-		index := applyLog.CommandIndex
-		if opCh, ok := kv.notifyCh[index]; ok {
-			// if there exist op in opCh, take it out
-			select {
-			case <-opCh:
-			default:
+		if !applyLog.CommandValid {
+			kv.mu.Lock()
+			kv.decodeSnapshot(applyLog.Command.([]byte))
+			kv.mu.Unlock()
+		} else {
+			kv.mu.Lock()
+			index := applyLog.CommandIndex
+			op, ok := applyLog.Command.(Op)
+			if !ok {
+				log.Fatal("[applyLoop]: interface asert failed")
 			}
-			// wake up RPC handler
-			opCh <- op
+
+			//detect duplicate request
+			if op.Seq > kv.LatestClientSeq[op.ClientId] {
+				kv.applyState(op)
+				DPrintf("server[%d] apply index[%d], StateMachine: %v", kv.me, index, kv.StateMachine)
+				kv.LatestClientSeq[op.ClientId] = op.Seq
+			}
+			if opCh, ok := kv.NotifyCh[index]; ok {
+				// if there exist op in opCh, take it out
+				select {
+				case <-opCh:
+				default:
+				}
+				// wake up RPC handler
+				opCh <- op
+			}
+
+			if kv.maxraftstate != -1 && kv.rf.PersisterSize() >= kv.maxraftstate*9/10 {
+				data := kv.encodeSnapshot()
+				DPrintf("server[%d] encode StateMachine: %v", kv.me, kv.StateMachine)
+				go kv.rf.SnapShot(index, data)
+			}
+
+			kv.mu.Unlock()
 		}
-		kv.mu.Unlock()
 	}
 }
 
 func (kv *KVServer) applyState(op Op) {
 	switch op.OpName {
 	case "Put":
-		kv.stateMachine[op.Key] = op.Value
+		kv.StateMachine[op.Key] = op.Value
 	case "Append":
-		if _, ok := kv.stateMachine[op.Key]; !ok {
-			kv.stateMachine[op.Key] = op.Value
+		if _, ok := kv.StateMachine[op.Key]; !ok {
+			kv.StateMachine[op.Key] = op.Value
 		} else {
-			kv.stateMachine[op.Key] += op.Value
+			kv.StateMachine[op.Key] += op.Value
 		}
 	default:
 	}
@@ -225,9 +258,13 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 
 	kv.applyCh = make(chan raft.ApplyMsg)
 	kv.rf = raft.Make(servers, me, persister, kv.applyCh)
-	kv.stateMachine = make(map[string]string)
-	kv.latestClientSeq = make(map[int64]int)
-	kv.notifyCh = make(map[int]chan Op)
+	kv.StateMachine = make(map[string]string)
+	kv.LatestClientSeq = make(map[int64]int)
+	kv.NotifyCh = make(map[int]chan Op)
+
+	//recover from snapshot
+	snapshot := persister.ReadSnapshot()
+	kv.decodeSnapshot(snapshot)
 
 	go kv.applyLoop()
 	// You may need initialization code here.
