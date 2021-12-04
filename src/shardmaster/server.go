@@ -1,11 +1,12 @@
 package shardmaster
 
+import (
+	"sync"
 
-import "../raft"
-import "../labrpc"
-import "sync"
-import "../labgob"
-
+	"../labgob"
+	"../labrpc"
+	"../raft"
+)
 
 type ShardMaster struct {
 	mu      sync.Mutex
@@ -18,18 +19,81 @@ type ShardMaster struct {
 	configs []Config // indexed by config num
 }
 
-
 type Op struct {
 	// Your data here.
 }
 
-
 func (sm *ShardMaster) Join(args *JoinArgs, reply *JoinReply) {
 	// Your code here.
+	if _, isLeader := sm.rf.GetState(); !isLeader {
+		reply.WrongLeader = true
+	}
+	newConfig := new(Config)
+	sm.mu.Lock()
+	lastConfigNum := len(sm.configs) - 1
+	newConfig.Num = sm.configs[lastConfigNum].Num + 1
+	oldGroups := sm.configs[lastConfigNum].Groups
+	newGroups := make(map[int][]string, len(oldGroups))
+	groupNum := 0
+	for k, v := range oldGroups {
+		if len(v) > 0 {
+			newGroups[k] = v
+			groupNum++
+		}
+	}
+	for k, v := range args.Servers {
+		if len(v) > 0 {
+			newGroups[k] = v
+			groupNum++
+		}
+	}
+
+	// assign group for shards
+	if groupNum <= NShards {
+		avg := NShards / groupNum
+		remain := NShards % groupNum
+		i := 0
+		groupNumList := make([]int, groupNum)
+		for gid := range newGroups {
+			groupNumList = append(groupNumList, gid)
+		}
+		for gid := range groupNumList {
+			for j := avg; j > 0 && i < NShards; j++ {
+				newConfig.Shards[i] = gid
+				i++
+			}
+		}
+		if remain > 0 {
+			for gid := range newGroups {
+				newConfig.Shards[i] = gid
+				i++
+				remain--
+				if remain == 0 {
+					break
+				}
+			}
+		}
+	} else {
+		i := 0
+		for gid := range newGroups {
+			newConfig.Shards[i] = gid
+			i++
+			if i == NShards {
+				break
+			}
+		}
+	}
+	newConfig.Groups = newGroups
+	sm.mu.Unlock()
+
 }
 
 func (sm *ShardMaster) Leave(args *LeaveArgs, reply *LeaveReply) {
 	// Your code here.
+	if _, isLeader := sm.rf.GetState(); !isLeader {
+		reply.WrongLeader = true
+	}
+
 }
 
 func (sm *ShardMaster) Move(args *MoveArgs, reply *MoveReply) {
@@ -39,7 +103,6 @@ func (sm *ShardMaster) Move(args *MoveArgs, reply *MoveReply) {
 func (sm *ShardMaster) Query(args *QueryArgs, reply *QueryReply) {
 	// Your code here.
 }
-
 
 //
 // the tester calls Kill() when a ShardMaster instance won't

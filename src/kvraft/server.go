@@ -45,7 +45,7 @@ type KVServer struct {
 	// Your definitions here.
 	StateMachine    map[string]string
 	LatestClientSeq map[int64]int   //record the latest op seq for each client
-	NotifyCh        map[int]chan Op //store command based on log index
+	NotifyCh        map[int]chan Op //channel for waiting raft to make agreement on given log index
 }
 
 func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {

@@ -1,0 +1,401 @@
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  39.0  5 9248 16564579  211
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	39.044s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.4  5 9495 16186234  196
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.410s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.5  5 10247 33438808   43
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.539s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.1  5 8383 22737701   32
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.095s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.8  5 10184 20260700   59
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.853s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.1  5 10288 29138546   98
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.088s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.8  5 11259 29651831   82
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.842s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.6  5 9640 16270513  142
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.607s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.4  5 10444 38194138  175
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.439s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.9  5 9414 15155434  115
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.867s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.1  5 6651 8502414  107
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.096s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.5  5 11488 22508350  226
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.488s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.4  5 5680 5292903  210
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.437s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.2  5 10810 19254749  167
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.194s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.3  5 11016 28939087  119
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.301s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.6  5 11015 20079033  149
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.616s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.1  5 9167 19425685  126
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.148s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.3  5 10361 28523981  155
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.291s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.6  5 9813 20448916  315
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.630s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.3  5 10585 24995127  563
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.285s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.3  5 10235 28342370  365
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.319s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.7  5 10646 12309247  132
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.752s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  31.3  5 10723 30193496   42
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	31.329s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  39.3  5 11730 30539204   43
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	39.261s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.7  5 7710 14061275  109
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.746s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.8  5 8529 13275810  312
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.835s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.1  5 10685 25476597   66
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.074s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.2  5 8890 16232882  287
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.184s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.5  5 10636 16325494   76
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.536s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.9  5 8320 14922107   62
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.873s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.2  5 9285 22963139  221
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.198s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.4  5 11319 92541371   21
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.393s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.3  5 8769 14207335  134
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.273s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  27.7  5 9184 21568674  127
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	27.684s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.4  5 7704 14156617  321
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.382s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.7  5 8642 10137724   70
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.744s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.1  5 10539 21711109  224
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.088s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.8  5 8717 23583195   51
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.806s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.2  5 9625 28122666  151
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.204s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.1  5 10346 13957870  297
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.074s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.7  5 9851 21114068  373
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.743s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.8  5 9805 19713000  189
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.840s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.3  5 9140 15878846  139
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.278s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.0  5 9194 18318738  106
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.969s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.0  5 11033 26462448  111
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.983s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.7  5 10206 21992395   71
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.703s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.2  5 8955 14282368  379
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.201s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  29.8  5 9228 24689050  169
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	29.856s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.0  5 11103 18601443  155
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.043s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.9  5 10055 16700810  234
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.939s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.5  5 8236 14409332   94
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.542s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  31.8  5 10208 24548504   61
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	31.771s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.3  5 8549 15019896   67
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.314s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.0  5 8088 11912394   61
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.959s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  30.7  5 7798 14479426   46
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	30.660s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.4  5 9027 15057181  191
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.404s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.9  5 10612 27488797  164
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.882s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.0  5 8519 12107265   63
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	31.980s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  31.4  5 8858 20056278   69
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	31.443s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.6  5 10312 23843374   84
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.647s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  29.6  5 7484 24914907   54
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	29.569s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.9  5 9690 14222253  213
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.855s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.4  5 11169 26141168  125
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.401s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.1  5 10834 30156031  186
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.106s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.6  5 10722 22017389  108
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.654s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.8  5 10119 17000621   67
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.846s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.1  5 11252 35300667   60
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.074s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.6  5 9434 14111689  285
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.589s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.8  5 10099 20910881  147
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.834s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.5  5 11083 22524335  167
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.548s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.3  5 11404 20539405  105
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.274s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.5  5 8995 16401533  151
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.515s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.7  5 7665 13607546  265
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.699s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.1  5 10737 28993224   71
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.073s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.8  5 3440 2051074   65
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.826s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.1  5 8358 17383631   89
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.154s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.0  5 10266 14685642  319
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.055s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.3  5 9457 14156871  161
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.329s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.1  5 10741 26655755   77
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.095s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  36.6  5 9895 21843199  133
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	36.615s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.7  5 10035 23656483  183
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.747s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.6  5 10059 35360086   24
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.638s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.0  5 8400 15296681  338
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.956s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.3  5 10728 27840283  136
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.281s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  39.0  5 11121 23728564  381
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	39.033s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  32.1  5 8847 16614959  192
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	32.104s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  33.1  5 9869 22185638   71
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.083s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  29.0  5 9261 21752687  218
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	28.990s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  41.3  5 10683 20520758  111
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	41.356s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  31.6  5 7934 13632299   83
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	31.570s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.1  5 10899 37885948  206
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.086s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  37.9  5 11358 24147995  288
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	37.940s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  39.9  5 9472 14046346  181
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	39.896s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.4  5 10190 20248462  145
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.397s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  34.0  5 9002 15769259  100
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	33.972s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.0  5 6917 21956263   44
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	34.973s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.4  5 10448 40654602   79
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.415s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  28.7  5 7871 19244922   94
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	28.680s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  35.2  5 8982 22673080   28
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	35.187s
+Test (2C): Figure 8 (unreliable) ...
+  ... Passed --  38.3  5 10167 18040745   85
+PASS
+ok  	_/home/zhaols/mit6.824/6.824/src/raft	38.280s
+test finished

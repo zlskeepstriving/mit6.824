@@ -12,7 +12,7 @@ type Clerk struct {
 	servers []*labrpc.ClientEnd
 	// You will have to modify this struct.
 	mu             sync.Mutex
-	latestLeaderId int
+	latestLeaderId int //save latest Leader's id so that client doesn't need to traverse all server
 	clientId       int64
 	opSeq          int
 }
