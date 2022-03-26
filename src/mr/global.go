@@ -1,42 +1,29 @@
 package mr
 
-import "time"
+import (
+	"fmt"
+)
 
 type TaskPhase int
 type TaskStatus int
 
 const (
-	MapPhase    TaskPhase = 1
-	ReducePhase TaskPhase = 2
-)
-
-const (
-	TaskStatusReady TaskStatus = iota
-	TaskStatusMapping
-	TaskStatusMapFinished
-	TaskStatusReducing
-	TaskStatusFinished
-	TaskStatusErr
-)
-
-const (
-	MaxTaskRunTime   = time.Second * 5
-	ScheduleInterval = time.Millisecond * 500
+	MapPhase    TaskPhase = 0
+	ReducePhase TaskPhase = 1
 )
 
 type Task struct {
-	MapFileName string
-	NReduce     int
-	NMaps       int
-	TaskID      int
-	Phase       TaskPhase
-	Status      TaskStatus
+	FileName string
+	NReduce  int
+	NMap     int
+	TaskID   int
+	Phase    TaskPhase
 }
 
-type TaskStat struct {
-	TaskID    int
-	Phase     TaskPhase
-	Status    TaskStatus
-	WorkerID  int
-	StartTime time.Time
+func IntermediateName(mapIdx, reduceIdx int) string {
+	return fmt.Sprintf("mr-%d-%d", mapIdx, reduceIdx)
+}
+
+func OutputName(reduceIdx int) string {
+	return fmt.Sprintf("mr-out-%d", reduceIdx)
 }

@@ -1,6 +1,6 @@
 # /bin/bash
-for i in {1..100}
+for i in {1..10}
 do
-	go test -run TestFigure8Unreliable2C >> debug2C
+	go test -run 2C >> debug2C.log
 done
-echo "test finished" >> debug2C
+echo "test 2C finished" >> debug2C.log

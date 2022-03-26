@@ -16,6 +16,7 @@ import (
 // and reply for an RPC.
 //
 
+/*
 type ExampleArgs struct {
 	X      int
 	TaskID int
@@ -24,16 +25,31 @@ type ExampleArgs struct {
 type ExampleReply struct {
 	Y int
 }
+*/
 
-type MasterReply struct {
-	CurTask        Task
-	MapFileName    string
-	ReduceFileName string
-	End            bool
+type GetTaskArgs struct {
+	WorkerID int
 }
 
-type WokerReply struct {
-	MapFinisedFileName string
+type GetTaskReply struct {
+	Task *Task
+}
+
+type RegisterWorkerArgs struct {
+}
+
+type RegisterWorkerReply struct {
+	WorkerID int
+}
+
+type ReportTaskArgs struct {
+	Done      bool
+	TaskID    int
+	WorkerID  int
+	TaskPhase TaskPhase
+}
+
+type ReportTaskReply struct {
 }
 
 // Add your RPC definitions here.

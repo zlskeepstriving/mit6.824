@@ -8,14 +8,7 @@ import (
 	"log"
 	"net/rpc"
 	"os"
-	"sort"
-	"time"
-
-	"sync"
-)
-
-var (
-	wg sync.WaitGroup
+	"strings"
 )
 
 //
@@ -26,13 +19,11 @@ type KeyValue struct {
 	Value string
 }
 
-// for sorting by key.
-type ByKey []KeyValue
-
-// for sorting by key.
-func (a ByKey) Len() int           { return len(a) }
-func (a ByKey) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a ByKey) Less(i, j int) bool { return a[i].Key < a[j].Key }
+type MRWorker struct {
+	ID      int
+	Mapf    func(string, string) []KeyValue
+	Reducef func(string, []string) string
+}
 
 //
 // use ihash(key) % NReduce to choose the reduce task number for each KeyValue emitted by Map.
@@ -47,182 +38,132 @@ func ihash(key string) int {
 // main/mrworker.go calls this function.
 //
 
-func mapFunction(mapf func(string, string) []KeyValue, task *Task) {
-	mapFilename := task.MapFileName
-	file, err := os.Open(mapFilename)
+func (w *MRWorker) runMapTask(task *Task) {
+	content, err := ioutil.ReadFile(task.FileName)
 	if err != nil {
-		log.Fatalf("cannot open %v", mapFilename)
+		w.CallReportTask(task, err)
+		return
 	}
-	//fmt.Println("Start Mapping", mapFilename)
-
-	content, err := ioutil.ReadAll(file)
-
-	if err != nil {
-		fmt.Printf("cannot read %v\n", mapFilename)
+	kvs := w.Mapf(task.FileName, string(content))
+	intermediate := make([][]KeyValue, task.NReduce, task.NReduce)
+	for _, kv := range kvs {
+		index := ihash(kv.Key) % task.NReduce
+		intermediate[index] = append(intermediate[index], kv)
 	}
-
-	file.Close()
-	intermediate := mapf(mapFilename, string(content))
-	for _, kv := range intermediate {
-		num := ihash(kv.Key) % task.NReduce
-		interFileName := fmt.Sprintf("mr-%v-%d", task.TaskID, num)
-		inter, err := os.OpenFile(interFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	for reduceIdx := 0; reduceIdx < task.NReduce; reduceIdx++ {
+		f, err := os.Create(IntermediateName(task.TaskID, reduceIdx))
 		if err != nil {
-			fmt.Println("can not open the file: ", interFileName)
+			w.CallReportTask(task, err)
+			return
 		}
-		enc := json.NewEncoder(inter)
-		err = enc.Encode(&kv)
+		data, _ := json.Marshal(intermediate[reduceIdx])
+		_, err = f.Write(data)
 		if err != nil {
-			fmt.Printf("map %v error\n", kv.Key)
+			w.CallReportTask(task, err)
+			return
 		}
-		inter.Close()
+		err = f.Close()
+		if err != nil {
+			w.CallReportTask(task, err)
+			return
+		}
 	}
 	//fmt.Printf("intermediate map file %v has been generated successfully\n", oname)
-	callMapTaskFinished(task)
+	w.CallReportTask(task, nil)
 }
 
-func reduceFunction(reducef func(string, []string) string, task *Task) {
-	intermediate := []KeyValue{}
-
-	for i := 0; i < task.NMaps; i++ {
-		interFileName := fmt.Sprintf("mr-%v-%v", i, task.TaskID)
-		inter, err := os.Open(interFileName)
+func (w *MRWorker) runReduceTask(task *Task) {
+	kvReduce := make(map[string][]string)
+	for mapIdx := 0; mapIdx < task.NMap; mapIdx++ {
+		content, err := ioutil.ReadFile(IntermediateName(mapIdx, task.TaskID))
 		if err != nil {
-			fmt.Println("can not open the file: ", interFileName)
+			w.CallReportTask(task, err)
+			return
 		}
-
-		dec := json.NewDecoder(inter)
-
-		for {
-			var kv KeyValue
-			if err := dec.Decode(&kv); err != nil {
-				break
+		kvs := make([]KeyValue, 0)
+		err = json.Unmarshal(content, &kvs)
+		if err != nil {
+			w.CallReportTask(task, err)
+			return
+		}
+		for _, kv := range kvs {
+			_, ok := kvReduce[kv.Key]
+			if !ok {
+				kvReduce[kv.Key] = make([]string, 0, 100)
 			}
-			intermediate = append(intermediate, kv)
+			kvReduce[kv.Key] = append(kvReduce[kv.Key], kv.Value)
 		}
 	}
-
-	sort.Sort(ByKey(intermediate))
-	outputFileName := fmt.Sprintf("mr-out-%v", task.TaskID)
-	outputFile, _ := os.Create(outputFileName)
-	defer outputFile.Close()
-
-	i := 0
-	for i < len(intermediate) {
-		j := i + 1
-		for j < len(intermediate) && intermediate[j].Key == intermediate[i].Key {
-			j++
-		}
-		values := []string{}
-		for k := i; k < j; k++ {
-			values = append(values, intermediate[k].Value)
-		}
-		output := reducef(intermediate[i].Key, values)
-
-		// this is the correct format for each line of Reduce output.
-		fmt.Fprintf(outputFile, "%v %v\n", intermediate[i].Key, output)
-
-		i = j
+	data := make([]string, 0, 100)
+	for k, v := range kvReduce {
+		data = append(data, fmt.Sprintf("%v %v\n", k, w.Reducef(k, v)))
 	}
+	err := ioutil.WriteFile(OutputName(task.TaskID), []byte(strings.Join(data, "")), 0600)
+	if err != nil {
+		w.CallReportTask(task, err)
+		return
+	}
+	w.CallReportTask(task, nil)
 	//fmt.Printf("mr-out %v file has been generated successfully\n", outputFileName)
-	callReduceTaskFinished(task)
 }
 
 func Worker(mapf func(string, string) []KeyValue,
 	reducef func(string, []string) string) {
+	w := MRWorker{
+		Mapf:    mapf,
+		Reducef: reducef,
+	}
+	w.CallRegisterWorker()
+	w.run()
+}
+
+func (w *MRWorker) run() {
 	for {
-		wg.Add(1)
-		time.Sleep(time.Second * 2)
-		go func() {
-			defer wg.Done()
-
-			task, end := callTask()
-			if end {
-				fmt.Println("All Task have been finished, worker can exit")
-				os.Exit(1)
-			}
-
-			// Your worker implementation here.
-			if task.Phase == MapPhase {
-				for j := 0; j < 10; j++ {
-					oname := fmt.Sprintf("mr-%v-%v", task.TaskID, j)
-					inter, err := os.Create(oname)
-					if err != nil {
-						fmt.Printf("Create file %v failed!", oname)
-					}
-					inter.Close()
-				}
-				mapFunction(mapf, &task)
-			} else if task.Phase == ReducePhase {
-				reduceFunction(reducef, &task)
-			}
-		}()
-	}
-	wg.Wait()
-}
-
-func callTask() (Task, bool) {
-	args := ExampleArgs{}
-	masterReply := MasterReply{}
-	if flag := call("Master.AssignTask", &args, &masterReply); flag {
-		//fmt.Println("callTask is successful")
-		if masterReply.End {
-			return Task{}, true
+		t := w.CallGetTask()
+		switch t.Phase {
+		case MapPhase:
+			w.runMapTask(t)
+		case ReducePhase:
+			w.runReduceTask(t)
+		default:
+			panic("t.Phase undefined\n")
 		}
-		return masterReply.CurTask, false
-	}
-	panic("call Task is fail")
-}
-
-func callEnd() bool {
-	args := ExampleArgs{}
-	masterReply := MasterReply{}
-	if flag := call("Master.WorkerCanExit", &args, &masterReply); flag {
-		//fmt.Println("callEnd is successful")
-		return masterReply.End
-	}
-	panic("call end is fail")
-}
-
-func callMapTaskFinished(task *Task) {
-	args := ExampleArgs{}
-	args.TaskID = task.TaskID
-	reply := MasterReply{}
-	if call("Master.MapTaskFinished", &args, &reply) {
-		//fmt.Println("call MapTaskFinished successfully.")
 	}
 }
 
-func callReduceTaskFinished(task *Task) {
-	args := ExampleArgs{}
-	args.TaskID = task.TaskID
-	reply := MasterReply{}
-	if call("Master.ReduceTaskFinished", &args, &reply) {
-		//fmt.Println("call ReduceTaskFinished successfully.")
+func (w *MRWorker) CallRegisterWorker() {
+	args := RegisterWorkerArgs{}
+	reply := RegisterWorkerReply{}
+	if !call("Master.RegisterWorker", &args, &reply) {
+		log.Fatal("Register failed!\n")
 	}
+	w.ID = reply.WorkerID
 }
 
-//
-// example function to show how to make an RPC call to the master.
-//
-// the RPC argument and reply types are defined in rpc.go.
-//
-func CallExample() {
+func (w *MRWorker) CallGetTask() *Task {
+	args := GetTaskArgs{w.ID}
+	reply := GetTaskReply{}
+	if !call("Master.GetTask", &args, &reply) {
+		log.Fatal("GetTask failed, worker process exit!\n")
+	}
+	return reply.Task
+}
 
-	// declare an argument structure.
-	args := ExampleArgs{}
-
-	// fill in the argument(s).
-	args.X = 99
-
-	// declare a reply structure.
-	reply := ExampleReply{}
-
-	// send the RPC request, wait for the reply.
-	call("Master.Example", &args, &reply)
-
-	// reply.Y should be 100.
-	fmt.Printf("reply.Y %v\n", reply.Y)
+func (w *MRWorker) CallReportTask(t *Task, err error) {
+	args := ReportTaskArgs{
+		Done:      true,
+		TaskID:    t.TaskID,
+		WorkerID:  w.ID,
+		TaskPhase: t.Phase,
+	}
+	if err != nil {
+		args.Done = false
+		log.Println(args, err)
+	}
+	reply := ReportTaskReply{}
+	if !call("Master.ReportTask", &args, &reply) {
+		log.Println("ReportTask failed", args)
+	}
 }
 
 //

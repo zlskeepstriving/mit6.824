@@ -1,122 +1,166 @@
 package mr
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"net/http"
 	"net/rpc"
 	"os"
 	"sync"
+	"time"
+)
+
+const (
+	TaskTimeout      = time.Second * 5
+	ScheduleInterval = time.Millisecond * 500
+)
+
+const (
+	TaskStatusReady = iota
+	TaskStatusQueue
+	TaskStatusRunning
+	TaskStatusFinished
+	TaskStatusErr
 )
 
 type Master struct {
 	// Your definitions here.
-	taskCh     chan Task
-	files      []string
-	nReduce    int
-	taskPhase  TaskPhase
-	taskStatus []TaskStat
-	workerID   int
-	fileToTask map[string]*Task
-	mutex      sync.Mutex
-	taskList   []*Task
-	phase      TaskPhase
+	TaskCh    chan *Task
+	Files     []string
+	NMap      int
+	NReduce   int
+	NWorker   int
+	Hasdone   bool
+	TaskPhase TaskPhase
+	TaskStats []TaskStat
+	Mu        sync.Mutex
+}
+
+type TaskStat struct {
+	Status    int
+	WorkerID  int
+	StartTime time.Time
 }
 
 // Your code here -- RPC handlers for the worker to call.
 
-//
-// an example RPC handler.
-//
-// the RPC argument and reply types are defined in rpc.go.
-//
-func (m *Master) Example(args *ExampleArgs, reply *ExampleReply) error {
-	reply.Y = args.X + 1
-	return nil
+func (m *Master) initMapTasks() {
+	m.TaskPhase = MapPhase
+	m.TaskStats = make([]TaskStat, m.NMap)
 }
 
-func (m *Master) MapTaskFinished(args *ExampleArgs, reply *MasterReply) error {
-	m.mutex.Lock()
-	//fmt.Println("rpc -----------------", args.TaskID)
-	m.taskList[args.TaskID].Status = TaskStatusMapFinished
-	m.mutex.Unlock()
-	return nil
+func (m *Master) initReduceTasks() {
+	m.TaskPhase = ReducePhase
+	m.TaskStats = make([]TaskStat, m.NReduce)
 }
 
-func (m *Master) ReduceTaskFinished(args *ExampleArgs, reply *MasterReply) error {
-	m.mutex.Lock()
-	m.taskList[args.TaskID].Status = TaskStatusFinished
-	m.mutex.Unlock()
-	return nil
+func (m *Master) makeTask(taskID int) *Task {
+	task := Task{
+		FileName: "",
+		NReduce:  m.NReduce,
+		NMap:     m.NMap,
+		TaskID:   taskID,
+		Phase:    m.TaskPhase,
+	}
+	if task.Phase == MapPhase {
+		task.FileName = m.Files[taskID]
+	}
+	return &task
 }
-func (m *Master) checkMapFinished() bool {
-	var ret = true
 
-	for _, task := range m.taskList {
-		if task.Status != TaskStatusMapFinished {
-			ret = false
-			break
+// 周期性的调度，处理一些任务处理超时的问题
+func (m *Master) tickSchedule() {
+	for !m.Hasdone {
+		m.schedule()
+		time.Sleep(ScheduleInterval)
+	}
+}
+
+func (m *Master) schedule() {
+	m.Mu.Lock()
+	defer m.Mu.Unlock()
+
+	if m.Hasdone {
+		return
+	}
+
+	allDone := true
+	for i, t := range m.TaskStats {
+		switch t.Status {
+		case TaskStatusReady:
+			allDone = false
+			m.TaskCh <- m.makeTask(i)
+			m.TaskStats[i].Status = TaskStatusQueue
+		case TaskStatusQueue:
+			allDone = false
+		case TaskStatusRunning:
+			allDone = false
+			if time.Now().Sub(t.StartTime) > TaskTimeout {
+				m.TaskStats[i].Status = TaskStatusQueue
+				m.TaskCh <- m.makeTask(i)
+			}
+		case TaskStatusFinished:
+		case TaskStatusErr:
+			allDone = false
+			m.TaskStats[i].Status = TaskStatusQueue
+			m.TaskCh <- m.makeTask(i)
+		default:
+			panic("t.Status undefined")
 		}
 	}
 
-	return ret
+	if allDone {
+		if m.TaskPhase == MapPhase {
+			m.initReduceTasks()
+		} else {
+			m.Hasdone = true
+		}
+	}
 }
 
-func (m *Master) AssignTask(args *ExampleArgs, masterReply *MasterReply) error {
-	masterReply.End = m.Done()
-	if masterReply.End {
+func (m *Master) registerTask(args *GetTaskArgs, task *Task) {
+	m.Mu.Lock()
+	defer m.Mu.Unlock()
+
+	m.TaskStats[task.TaskID].Status = TaskStatusRunning
+	m.TaskStats[task.TaskID].WorkerID = args.WorkerID
+	m.TaskStats[task.TaskID].StartTime = time.Now()
+}
+
+// RPC handler, Get a map/reduce task for workers
+func (m *Master) GetTask(args *GetTaskArgs, reply *GetTaskReply) error {
+	task := <-m.TaskCh
+	reply.Task = task
+	m.registerTask(args, task)
+	return nil
+}
+
+// RPC handler. Register a worker, reply a WorkerID
+func (m *Master) RegisterWorker(args *RegisterWorkerArgs, reply *RegisterWorkerReply) error {
+	m.Mu.Lock()
+	defer m.Mu.Unlock()
+
+	reply.WorkerID = m.NWorker
+	m.NWorker++
+	return nil
+}
+
+// RPC handler. Report task Done or Error and then schedule
+func (m *Master) ReportTask(args *ReportTaskArgs, reply *RegisterWorkerReply) error {
+	m.Mu.Lock()
+
+	// a map task may run more than one time cause redudant running
+	if args.TaskPhase != m.TaskPhase || m.TaskStats[args.TaskID].WorkerID != args.WorkerID {
+		m.Mu.Unlock()
 		return nil
 	}
-
-	m.mutex.Lock()
-	if m.phase == MapPhase {
-		for _, task := range m.taskList {
-			if task.Status == TaskStatusReady {
-				task.Phase = MapPhase
-				masterReply.CurTask = *task
-				task.Status = TaskStatusMapping
-				//fmt.Println("Mapping file", task.MapFileName)
-				break
-			}
-		}
-		//check whether map phase has finished
-		startReducePhase := m.checkMapFinished()
-		if startReducePhase {
-			m.phase = ReducePhase
-
-			//update taskList for reduce phase
-			var t int = len(m.taskList)
-			for len(m.taskList) < m.nReduce {
-				ts := &Task{
-					Status: TaskStatusMapFinished,
-					Phase:  ReducePhase,
-					TaskID: t,
-					NMaps:  m.taskList[0].NMaps,
-				}
-				t++
-				m.taskList = append(m.taskList, ts)
-			}
-			fmt.Println("All MapTask have been finished, now start ReducePhase")
-		}
-	} else if m.phase == ReducePhase {
-		for _, task := range m.taskList {
-			if task.Status == TaskStatusMapFinished {
-				task.Phase = ReducePhase
-				masterReply.CurTask = *task
-				task.Status = TaskStatusReducing
-				//fmt.Printf("Reducing mr-*-%v\n", task.TaskID)
-				break
-			}
-		}
+	if args.Done {
+		m.TaskStats[args.TaskID].Status = TaskStatusFinished
+	} else {
+		m.TaskStats[args.TaskID].Status = TaskStatusErr
 	}
-	m.mutex.Unlock()
-
-	return nil
-}
-
-func (m *Master) WorkerCanExit(args *ExampleArgs, reply *MasterReply) error {
-	reply.End = m.Done()
+	m.Mu.Unlock()
+	m.schedule()
 	return nil
 }
 
@@ -141,23 +185,9 @@ func (m *Master) server() {
 // if the entire job has finished.
 //
 func (m *Master) Done() bool {
-	ret := true
 
 	// Your code here.
-
-	m.mutex.Lock()
-	for _, task := range m.taskList {
-		//fmt.Println(task)
-		if task.Status != TaskStatusFinished {
-			ret = false
-			break
-		}
-	}
-	m.mutex.Unlock()
-	if ret {
-		fmt.Println("All Task have been finished successfully!")
-	}
-	return ret
+	return m.Hasdone
 }
 
 //
@@ -167,24 +197,17 @@ func (m *Master) Done() bool {
 //
 func MakeMaster(files []string, nReduce int) *Master {
 	m := Master{}
-	m.files = files
-	m.nReduce = nReduce
-	var taskid int = 0
-	for _, file := range m.files {
-		task := Task{
-			MapFileName: file,
-			Status:      TaskStatusReady,
-			TaskID:      taskid,
-			NMaps:       len(files),
-			NReduce:     nReduce,
-		}
-		taskid++
-		m.taskList = append(m.taskList, &task)
-		//fmt.Println(taskList)
-	}
-	m.phase = MapPhase
 	// Your code here.
-
+	m.Files = files
+	m.NMap = len(files)
+	m.NReduce = nReduce
+	if m.NReduce > m.NMap {
+		m.TaskCh = make(chan *Task, m.NReduce)
+	} else {
+		m.TaskCh = make(chan *Task, m.NMap)
+	}
+	m.initMapTasks()
 	m.server()
+	go m.tickSchedule()
 	return &m
 }
