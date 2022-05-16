@@ -1,25 +1,21 @@
 package shardkv
 
-import (
-	"os"
-	"testing"
+import "../shardmaster"
+import "../labrpc"
+import "testing"
+import "os"
 
-	"../labrpc"
-	"../shardmaster"
-
-	// import "log"
-	crand "crypto/rand"
-	"encoding/base64"
-	"fmt"
-	"math/big"
-	"math/rand"
-	"runtime"
-	"strconv"
-	"sync"
-	"time"
-
-	"../raft"
-)
+// import "log"
+import crand "crypto/rand"
+import "math/big"
+import "math/rand"
+import "encoding/base64"
+import "sync"
+import "runtime"
+import "../raft"
+import "strconv"
+import "fmt"
+import "time"
 
 func randstring(n int) string {
 	b := make([]byte, 2*n)
@@ -84,14 +80,6 @@ func (cfg *config) cleanup() {
 	for gi := 0; gi < cfg.ngroups; gi++ {
 		cfg.ShutdownGroup(gi)
 	}
-	// TODO
-	cfg.mu.Lock()
-	for i := 0; i < len(cfg.masterservers); i++ {
-		if cfg.masterservers[i] != nil {
-			cfg.masterservers[i].Kill()
-		}
-	}
-	cfg.mu.Unlock()
 	cfg.net.Cleanup()
 	cfg.checkTimeout()
 }
@@ -102,7 +90,7 @@ func (cfg *config) checklogs() {
 		for i := 0; i < cfg.n; i++ {
 			raft := cfg.groups[gi].saved[i].RaftStateSize()
 			snap := len(cfg.groups[gi].saved[i].ReadSnapshot())
-			if cfg.maxraftstate >= 0 && raft > 2*cfg.maxraftstate {
+			if cfg.maxraftstate >= 0 && raft > 8*cfg.maxraftstate {
 				cfg.t.Fatalf("persister.RaftStateSize() %v, but maxraftstate %v",
 					raft, cfg.maxraftstate)
 			}

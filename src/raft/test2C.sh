@@ -1,6 +1,10 @@
 # /bin/bash
+time=$(date)
+echo $time >> test2C.log
+
 for i in {1..10}
 do
-	go test -run 2C >> debug2C.log
+	go test -run 2C >> test2C.log
 done
-echo "test 2C finished" >> debug2C.log
+echo "test 2C finished" >> test2C.log
+echo " "

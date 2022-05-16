@@ -16,7 +16,7 @@ const (
 	ErrNoKey       = "ErrNoKey"
 	ErrWrongGroup  = "ErrWrongGroup"
 	ErrWrongLeader = "ErrWrongLeader"
-	ErrTimeOut     = "ErrTimeOut"
+	ErrTimeout     = "ErrTimeout"
 )
 
 type Err string
@@ -31,15 +31,13 @@ func init() {
 	labgob.Register(CleanShardDataArgs{})
 	labgob.Register(CleanShardDataReply{})
 	labgob.Register(MergeShardData{})
-
 }
 
 // Put or Append
 type PutAppendArgs struct {
 	// You'll have to add definitions here.
-	Key   string
-	Value string
-
+	Key       string
+	Value     string
 	Op        string // "Put" or "Append"
 	ClientId  int64
 	MsgId     int64
@@ -99,6 +97,7 @@ type FetchShardDataReply struct {
 	Data       map[string]string
 }
 
+// 注意这里可以作为问题，go的切片和map是引用类型，应使用深拷贝
 func (reply *FetchShardDataReply) Copy() FetchShardDataReply {
 	res := FetchShardDataReply{
 		Success:    reply.Success,

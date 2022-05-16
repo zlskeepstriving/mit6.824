@@ -46,14 +46,6 @@ type Clerk struct {
 	clientId int64
 }
 
-func (ck *Clerk) log(format string, val ...interface{}) {
-	// fmt.Printf(format + "\n", val...)
-}
-
-func (ck *Clerk) getConfigNum() int {
-	return ck.config.Num
-}
-
 //
 // the tester calls MakeClerk.
 //
@@ -67,8 +59,8 @@ func MakeClerk(masters []*labrpc.ClientEnd, make_end func(string) *labrpc.Client
 	ck := new(Clerk)
 	ck.sm = shardmaster.MakeClerk(masters)
 	ck.make_end = make_end
-	// You'll have to add code here.
 	ck.clientId = nrand()
+	// You'll have to add code here.
 	return ck
 }
 
@@ -80,12 +72,12 @@ func MakeClerk(masters []*labrpc.ClientEnd, make_end func(string) *labrpc.Client
 //
 func (ck *Clerk) Get(key string) string {
 	args := GetArgs{}
-	args.MsgId = time.Now().UnixNano()
+	args.MsgId = nrand()
 	args.ClientId = ck.clientId
 	args.Key = key
 
 	for {
-		args.ConfigNum = ck.getConfigNum()
+		args.ConfigNum = ck.config.Num
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
 		if servers, ok := ck.config.Groups[gid]; ok {
@@ -117,24 +109,22 @@ func (ck *Clerk) Get(key string) string {
 //
 func (ck *Clerk) PutAppend(key string, value string, op string) {
 	args := PutAppendArgs{}
-	args.MsgId = time.Now().UnixNano()
-	args.ClientId = ck.clientId
 	args.Key = key
 	args.Value = value
 	args.Op = op
+	args.ClientId = ck.clientId
+	args.MsgId = nrand()
 
 	for {
-		args.ConfigNum = ck.getConfigNum()
+		args.ConfigNum = ck.config.Num
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
 		if servers, ok := ck.config.Groups[gid]; ok {
-			ck.log("shardclient: config:%+v, servers:%+v\n", ck.config, servers)
 			for si := 0; si < len(servers); si++ {
 				srv := ck.make_end(servers[si])
 				var reply PutAppendReply
 				ok := srv.Call("ShardKV.PutAppend", &args, &reply)
 				if ok && reply.Err == OK {
-					ck.log("shardclient: putappendok, config:%+v, args:%+v\n", ck.config, args)
 					return
 				}
 				if ok && reply.Err == ErrWrongGroup {

@@ -1,6 +1,6 @@
 # /bin/bash
-for i in {1..50}
+for i in {1..10}
 do
-	go test -run 3 >> debugLab3 -race
+	go test -run TestSnapshotRecoverManyClients3B >> debug.log
 done
 echo "test finished" >> debugLab3

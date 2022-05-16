@@ -123,7 +123,7 @@ func (kv *KVServer) runOp(op Op) string {
 		kv.mu.Unlock()
 	}()
 
-	//wait raft to reach agreement, receive the op of index which from Start()'s return
+	// wait raft to reach agreement, receive the op of index which from Start()'s return
 	select {
 	case logOp := <-opCh:
 		if reflect.DeepEqual(logOp, op) {
@@ -147,10 +147,18 @@ func (kv *KVServer) encodeSnapshot() []byte {
 func (kv *KVServer) decodeSnapshot(snapshot []byte) {
 	d := bytes.NewBuffer(snapshot)
 	decoder := labgob.NewDecoder(d)
+	stateMachine := make(map[string]string)
+	latestClientSeq := make(map[int64]int)
+	decoder.Decode(&stateMachine)
+	decoder.Decode(&latestClientSeq)
 	kv.StateMachine = make(map[string]string)
 	kv.LatestClientSeq = make(map[int64]int)
-	decoder.Decode(&kv.StateMachine)
-	decoder.Decode(&kv.LatestClientSeq)
+	for k, v := range stateMachine {
+		kv.StateMachine[k] = v
+	}
+	for k, v := range latestClientSeq {
+		kv.LatestClientSeq[k] = v
+	}
 	DPrintf("server[%d] decode StateMachine: %v", kv.me, kv.StateMachine)
 }
 
@@ -263,8 +271,10 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 	kv.NotifyCh = make(map[int]chan Op)
 
 	//recover from snapshot
+	kv.mu.Lock()
 	snapshot := persister.ReadSnapshot()
 	kv.decodeSnapshot(snapshot)
+	kv.mu.Unlock()
 
 	go kv.applyLoop()
 	// You may need initialization code here.

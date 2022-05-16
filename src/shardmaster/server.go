@@ -425,6 +425,7 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister)
 	sm.maxraftstate = -1
 
 	labgob.Register(Op{})
+	labgob.Register(Config{})
 	sm.applyCh = make(chan raft.ApplyMsg)
 	sm.rf = raft.Make(servers, me, persister, sm.applyCh)
 

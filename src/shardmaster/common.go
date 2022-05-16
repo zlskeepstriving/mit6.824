@@ -28,6 +28,18 @@ type Config struct {
 	Groups map[int][]string // gid -> servers[]
 }
 
+func (c *Config) Copy() Config {
+	r := Config{
+		Num:    c.Num,
+		Shards: c.Shards,
+		Groups: make(map[int][]string),
+	}
+	for gid, s := range c.Groups {
+		r.Groups[gid] = append([]string{}, s...)
+	}
+	return r
+}
+
 const (
 	OK             = "OK"
 	ErrWrongLeader = "ErrWrongLeader"

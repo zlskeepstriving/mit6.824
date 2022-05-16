@@ -19,6 +19,7 @@ package raft
 
 import (
 	"bytes"
+	"fmt"
 	"math/rand"
 	"sync"
 	"sync/atomic"
@@ -94,7 +95,7 @@ type Raft struct {
 	// Your data here (2A, 2B, 2C).
 	// Look at the paper's Figure 2 for a description of what
 	// state a Raft server must maintain.
-
+	gid int
 }
 
 // return CurrentTerm and whether this server
@@ -192,7 +193,7 @@ func (rf *Raft) SnapShot(index int, snapshot []byte) {
 
 	DPrintf("[Snapshot]: server[%d] index[%d]", rf.me, index)
 
-	if index <= rf.SnapshotIndex {
+	if index <= rf.SnapshotIndex || index > rf.lastApplied {
 		return
 	}
 
@@ -265,7 +266,6 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 		rf.CurrentTerm = args.Term
 		rf.VotedFor = args.CandidateID
 		rf.changeTo(Follower)
-		rf.resetElectionTimer()
 		DPrintf("[RequestVote]: peer[%d] reset electionTimer[%d] because of vote for Candidate peer[%d], timestamp[%v]",
 			rf.me, rf.electionTimeout, args.CandidateID, time.Now().UnixNano())
 
@@ -302,8 +302,8 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	defer rf.mu.Unlock()
 	reply.CurrentTerm = rf.CurrentTerm
 	reply.Success = false
-	DPrintf("[AppendEntries]: term[%d] peer[%d] receive a RPC from leader peer[%d], prevLogIndex[%d], LeaderCommit:[%v], log[%v], timestamp[%v]",
-		rf.CurrentTerm, rf.me, args.LeaderID, args.PrevLogIndex, args.LeaderCommit, rf.Logs, time.Now().UnixNano())
+	DPrintf("[AppendEntries]: term[%d] peer[%d] receive a RPC from leader peer[%d], prevLogIndex[%d], LeaderCommit:[%v], timestamp[%v], log[%v]",
+		rf.CurrentTerm, rf.me, args.LeaderID, args.PrevLogIndex, args.LeaderCommit, time.Now().UnixNano(), rf.Logs)
 
 	//check term and log match
 	if rf.CurrentTerm > args.Term {
@@ -312,13 +312,14 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		return
 	}
 
-	if rf.CurrentTerm <= args.Term {
+	termIsEqual := rf.CurrentTerm == args.Term
+
+	if rf.CurrentTerm < args.Term {
 		rf.CurrentTerm = args.Term
 		rf.VotedFor = -1
 		rf.changeTo(Follower)
 		rf.persist()
-		rf.resetElectionTimer()
-		DPrintf("[AppendEntries]: peer[%d] resetElectionTimer[%d] because of receving RPC from Leader peer[%d], timestamp[%v] 1", rf.me, rf.electionTimeout, args.LeaderID, time.Now().UnixNano())
+		//DPrintf("[AppendEntries]: peer[%d] resetElectionTimer[%d] because of receving RPC from Leader peer[%d], timestamp[%v] 1", rf.me, rf.electionTimeout, args.LeaderID, time.Now().UnixNano())
 	}
 	//DPrintf("term[%d], peer[%d] receive an AppendEntries RPC from Leader peer[%d]", args.Term, rf.me, args.LeaderID)
 
@@ -345,6 +346,9 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 					rf.me, rf.CurrentTerm, rf.GetIdentity(), reply.ConflictIndex, reply.ConflictTerm)
 			}
 			return
+		}
+		if termIsEqual {
+			rf.changeTo(Follower)
 		}
 		//find the latest non-match log, delete all log follow it and append new entry to it's log
 		logIndex := args.PrevLogIndex + 1
@@ -429,7 +433,7 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 	rf.persister.SaveStateAndSnapshot(rf.encodeState(), args.Data)
 
 	//force follower catch up with leader
-	rf.commitedIndex = max(rf.commitedIndex, args.LastIncludedIndex)
+	rf.commitedIndex = args.LastIncludedIndex
 	rf.lastApplied = max(rf.lastApplied, args.LastIncludedIndex)
 
 	DPrintf("[InstallSnapshot]  2: server[%d]'s SnapshotIndex[%d], leader[%d]'s SnapshotIndex[%d], commitedIndex[%d], new Log[%v]",
@@ -508,6 +512,9 @@ func (rf *Raft) heartBeatTicker() {
 
 func (rf *Raft) changeTo(newIdentity Identity) {
 	rf.iedentity = newIdentity
+	if newIdentity != Leader {
+		rf.resetElectionTimer()
+	}
 }
 
 func (rf *Raft) GetIdentity() string {
@@ -684,7 +691,7 @@ func (rf *Raft) sendAppend(serverID int) {
 	prevLogTerm := rf.Logs[rf.getRelativeLogIndex(prevLogIndex)].Term
 	entries := make([]LogEntry, 0)
 	if rf.nextIndex[serverID] <= rf.getLastIndexOfLogs() {
-		entries = rf.Logs[rf.getRelativeLogIndex(rf.nextIndex[serverID]):]
+		entries = append(entries, rf.Logs[rf.getRelativeLogIndex(rf.nextIndex[serverID]):]...)
 	}
 	args := AppendEntriesArgs{
 		Term:         rf.CurrentTerm,
@@ -696,6 +703,7 @@ func (rf *Raft) sendAppend(serverID int) {
 	}
 	rf.mu.Unlock()
 	reply := AppendEntriesReply{}
+	DPrintf("Leader peer [%d] send log [%v] to peer[%d]", rf.me, entries, serverID)
 	if rf.sendAppendEntries(serverID, &args, &reply) {
 		rf.handleAppendResponse(&reply, &args, serverID)
 	} else {
@@ -791,7 +799,7 @@ func (rf *Raft) updateLeaderCommit() {
 			break
 		}
 	}
-	if waitCommit != rf.commitedIndex {
+	if waitCommit > rf.commitedIndex {
 		rf.commitedIndex = waitCommit
 		rf.applyCond.Broadcast()
 	}
@@ -799,33 +807,38 @@ func (rf *Raft) updateLeaderCommit() {
 
 func (rf *Raft) applier() {
 	for !rf.killed() {
-		rf.mu.Lock()
-		commitedIndex := rf.commitedIndex
-		lastApplied := rf.lastApplied
-		rf.mu.Unlock()
+		var commitedIndex int
+		var lastApplied int
 
-		if lastApplied >= commitedIndex {
-			rf.mu.Lock()
+		rf.applyCond.L.Lock()
+		for rf.lastApplied >= rf.commitedIndex {
 			rf.applyCond.Wait()
-			rf.mu.Unlock()
-		} else {
-			for i := lastApplied + 1; i <= commitedIndex; i++ {
-				rf.mu.Lock()
-				if i <= rf.SnapshotIndex {
-					rf.mu.Unlock()
-					continue
-				}
-				newApplyMsg := ApplyMsg{
-					CommandValid: true,
-					Command:      rf.Logs[rf.getRelativeLogIndex(i)].Command,
-					CommandIndex: rf.Logs[rf.getRelativeLogIndex(i)].Index,
-				}
-				rf.lastApplied = i
-				DPrintf("[applier]: peer[%d] Term[%d] identity[%s] apply command [%v] of index [%d] and term [%d] to state machine, timestamp[%v]\n",
-					rf.me, rf.CurrentTerm, rf.GetIdentity(), newApplyMsg.Command, newApplyMsg.CommandIndex, rf.Logs[rf.getRelativeLogIndex(i)].Term, time.Now().UnixNano())
-				rf.mu.Unlock()
-				rf.applyCh <- newApplyMsg
+		}
+		commitedIndex = rf.commitedIndex
+		lastApplied = rf.lastApplied
+		if lastApplied < rf.SnapshotIndex {
+			rf.applyCond.L.Unlock()
+			continue
+		}
+		applyMsgs := make([]ApplyMsg, 0, commitedIndex-lastApplied)
+		for i := lastApplied + 1; i <= commitedIndex; i++ {
+			if i < rf.SnapshotIndex {
+				fmt.Printf("i: [%d], snapshotIndex: [%d]\n", i, rf.SnapshotIndex)
 			}
+			newApplyMsg := ApplyMsg{
+				CommandValid: true,
+				Command:      rf.Logs[rf.getRelativeLogIndex(i)].Command,
+				CommandIndex: rf.Logs[rf.getRelativeLogIndex(i)].Index,
+			}
+			applyMsgs = append(applyMsgs, newApplyMsg)
+			rf.lastApplied = newApplyMsg.CommandIndex
+		}
+		rf.applyCond.L.Unlock()
+
+		for _, newApplyMsg := range applyMsgs {
+			rf.applyCh <- newApplyMsg
+			DPrintf("[applier]: peer[%d] Term[%d] identity[%s] apply command [%v] of index [%d] to state machine, timestamp[%v]\n",
+				rf.me, rf.CurrentTerm, rf.GetIdentity(), newApplyMsg.Command, newApplyMsg.CommandIndex, time.Now().UnixNano())
 		}
 	}
 }
@@ -840,7 +853,7 @@ func (rf *Raft) insertLog(command interface{}) (int, int) {
 	}
 	rf.Logs = append(rf.Logs, newEntry)
 	rf.persist()
-	DPrintf("leader peer[%d] append log at index[%d] in term[%d], timestamp[%v]", rf.me, index, term, time.Now().UnixNano())
+	DPrintf("leader peer[%d] append log[%v] at index[%d] in term[%d], timestamp[%v]", rf.me, command, index, term, time.Now().UnixNano())
 	return term, newEntry.Index
 }
 
@@ -909,7 +922,7 @@ func (rf *Raft) killed() bool {
 // for any long-running work.
 //
 func Make(peers []*labrpc.ClientEnd, me int,
-	persister *Persister, applyCh chan ApplyMsg) *Raft {
+	persister *Persister, applyCh chan ApplyMsg, gid ...int) *Raft {
 	rf := &Raft{
 		peers:         peers,
 		persister:     persister,
@@ -925,6 +938,13 @@ func Make(peers []*labrpc.ClientEnd, me int,
 		commitedIndex: 0,
 		lastApplied:   0,
 		SnapshotIndex: 0,
+	}
+
+	// gid for test
+	if len(gid) != 0 {
+		rf.gid = gid[0]
+	} else {
+		rf.gid = -1
 	}
 
 	rand.Seed(time.Now().UnixNano())
